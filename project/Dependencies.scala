@@ -7,4 +7,6 @@ object Version {
 
 object Library {
   val scalaTest      = "org.scalatest"  %% "scalatest"        % Version.ScalaTest
+  val scalaCompiler  = "org.scala-lang" %  "scala-compiler"   % Version.Scala
+  val scalaLibrary   = "org.scala-lang" %  "scala-library"    % Version.Scala
 }
