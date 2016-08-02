@@ -3,7 +3,8 @@ publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.
 libraryDependencies ++= Vector (
   Library.scalaCompiler,
   Library.scalaLibrary,
-  Library.scalaTest       % "test"
+  Library.scalaTest       % "test",
+  Library.junit           % "test"
 )
 val sbtcp = taskKey[Unit]("sbt-classpath")
 

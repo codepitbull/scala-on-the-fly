@@ -1,7 +1,10 @@
 package de.codepitbull.scala.onthefly
 
-import org.scalatest.{ FlatSpec, Matchers }
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
+import org.scalatest.{FlatSpec, Matchers}
 
+@RunWith(classOf[JUnitRunner])
 class OnTheFlyCompilerTest extends FlatSpec with Matchers {
 
   "A test class" should "should be compiled" in {
