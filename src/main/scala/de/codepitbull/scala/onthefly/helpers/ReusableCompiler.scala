@@ -13,30 +13,17 @@ import scala.tools.nsc.{ Global, Settings }
   */
 class ReusableCompiler(settings: Settings) {
 
-  var missingClasses = List[String]()
-
-  private val reporter = new ConsoleReporter(settings) {
-    override def error(pos: Position, msg: String): Unit = {
-      //identifiy and record missing classes names
-      if (msg.contains("is not a member")) {
-        val parts = msg.split(" ")
-        missingClasses = s"${ parts(8) }.${ parts(1) }" :: missingClasses
-      }
-      info0(pos, msg, ERROR, force = false)
-    }
-  }
+  private val reporter = new ConsoleReporter(settings)
 
   private val global = new Global(settings, reporter)
 
-  def compileSources(list: List[SourceFile]): List[String] = {
+  def compileSources(list: List[SourceFile]): Unit = {
     resetContexts
     val run = new global.Run
     run.compileSources(list)
-    missingClasses
   }
 
   def resetContexts: Unit = {
-    missingClasses = List[String]()
     reporter.reset()
   }
 }
