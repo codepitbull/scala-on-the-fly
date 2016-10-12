@@ -1,6 +1,5 @@
 import org.scalafmt.sbt.ScalaFmtPlugin
 import sbt.Keys._
-import sbt.Package.ManifestAttributes
 import sbt._
 
 object Build extends AutoPlugin {
@@ -15,7 +14,9 @@ object Build extends AutoPlugin {
       resolvers ++= Seq {
         "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
       },
-      organization := "de.codepitbull",
+      publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository"))),
+      fork := true,
+      organization := "de.codepitbull.scala.onthefly",
       version := version.in(ThisBuild).value, 
       scalaVersion := Version.Scala,
       crossScalaVersions := Vector(scalaVersion.value),
