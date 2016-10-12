@@ -1,6 +1,26 @@
-You might be better off looking at https://github.com/kostaskougios/scalascriptengine
+A small library to allow compiling classes from classpath/string.
 
-sbt-build causes
-=> scala.reflect.internal.FatalError: package scala does not have a member Int
+Execute script:
+```
+val compiler = new OnTheFlyCompiler(None)
+val script   = "println(\"you should see me\")"
+compiler.eval[Unit](script)
+```
 
-doesn't happen with the Maven-build
+Compile class and execute a method on it:
+```
+val compiler = new OnTheFlyCompiler(None)
+val script = "import de.codepitbull.scala.onthefly.Extendthis\n" +
+             "class Test extends Extendthis{\n" +
+             "override def hello():String = \"hello\"\n" +
+             "}"
+compiler.compileClass(script)
+compiler
+  .findClass("Test")
+  .get
+  .newInstance()
+  .asInstanceOf[Extendthis]
+  .hello()
+```
+
+Alternative: https://github.com/kostaskougios/scalascriptengine
