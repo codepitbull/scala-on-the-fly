@@ -1,4 +1,4 @@
-package de.codepitbull.scala.onthefly.helpers
+package io.vertx.scala.onthefly.helpers
 
 import scala.reflect.internal.util.{ Position, SourceFile }
 import scala.tools.nsc.reporters.ConsoleReporter
@@ -18,13 +18,11 @@ class ReusableCompiler(settings: Settings) {
   private val global = new Global(settings, reporter)
 
   def compileSources(list: List[SourceFile]): Unit = {
-    resetContexts
     val run = new global.Run
-    run.compileSources(list)
-  }
-
-  def resetContexts: Unit = {
     reporter.reset()
+    run.compileSources(list)
+    if(reporter.hasErrors)
+      throw new ClassNotFoundException("Unable to compile sources, check logs.")
   }
 }
 

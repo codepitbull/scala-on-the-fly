@@ -1,16 +1,17 @@
-package de.codepitbull.scala.onthefly
+package io.vertx.scala.onthefly
 
 import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
 
-import de.codepitbull.scala.onthefly.helpers.ReusableCompiler
+import io.vertx.scala.onthefly.helpers.ReusableCompiler
 
 import scala.collection.mutable
 import scala.io.Source.fromInputStream
-import scala.reflect.internal.util.{ AbstractFileClassLoader, BatchSourceFile }
+import scala.reflect.internal.util.{AbstractFileClassLoader, BatchSourceFile}
 import scala.tools.nsc.Settings
-import scala.tools.nsc.io.{ AbstractFile, VirtualDirectory }
+import scala.tools.nsc.io.{AbstractFile, VirtualDirectory}
+import scala.util.Success
 
 /**
   * This compiler is used to compile both scriplets and scala-files contained in the classpath.

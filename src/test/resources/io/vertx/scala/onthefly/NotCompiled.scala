@@ -1,4 +1,4 @@
-package de.codepitbull.scala.onthefly
+package io.vertx.scala.onthefly
 
 class NotCompiled {
   def doStuff():String = {
