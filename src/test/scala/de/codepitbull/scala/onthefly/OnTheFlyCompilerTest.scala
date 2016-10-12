@@ -7,14 +7,14 @@ import org.scalatest.{ FlatSpec, Matchers }
 @RunWith(classOf[JUnitRunner])
 class OnTheFlyCompilerTest extends FlatSpec with Matchers {
 
-  "A test class" should "should be compiled" in {
+  "A simple test class" should "should be compiled" in {
     val compiler = new OnTheFlyCompiler(None)
     val script   = "class Test{}"
     compiler.compileClass(script)
     compiler.findClass("Test") shouldBe defined
   }
 
-  "A method executed on onthefly-compile test class" should "return the expected value" in {
+  "A method executed on a onthefly-compiled test class" should "return the expected value" in {
     val compiler = new OnTheFlyCompiler(None)
     val script = "import de.codepitbull.scala.onthefly.Extendthis\n" +
         "class Test extends Extendthis{\n" +
