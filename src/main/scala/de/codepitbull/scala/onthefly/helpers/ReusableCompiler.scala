@@ -20,8 +20,7 @@ class ReusableCompiler(settings: Settings) {
       //identifiy and record missing classes names
       if (msg.contains("is not a member")) {
         val parts = msg.split(" ")
-        missingClasses = (parts(8) + "." + parts(1)) :: missingClasses
-        println(missingClasses)
+        missingClasses = s"${ parts(8) }.${ parts(1) }" :: missingClasses
       }
       info0(pos, msg, ERROR, force = false)
     }
@@ -30,11 +29,15 @@ class ReusableCompiler(settings: Settings) {
   private val global = new Global(settings, reporter)
 
   def compileSources(list: List[SourceFile]): List[String] = {
-    missingClasses = List[String]()
-    reporter.reset()
+    resetContexts
     val run = new global.Run
     run.compileSources(list)
     missingClasses
+  }
+
+  def resetContexts: Unit = {
+    missingClasses = List[String]()
+    reporter.reset()
   }
 }
 

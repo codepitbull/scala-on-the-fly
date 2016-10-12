@@ -24,7 +24,8 @@ class CompilingClassLoader(override val root: AbstractFile,
             new BatchSourceFile("(inline)",
                                 fromInputStream(res).getLines().mkString("\n"))
         )
-        reusableCompiler.compileSources(sourceFiles)
+        val missingSources: List[String] =
+          reusableCompiler.compileSources(sourceFiles)
         findClass(name)
       }
     })

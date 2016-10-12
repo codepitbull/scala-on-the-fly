@@ -2,7 +2,7 @@ package de.codepitbull.scala.onthefly
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{ FlatSpec, Matchers }
 
 @RunWith(classOf[JUnitRunner])
 class OnTheFlyCompilerTest extends FlatSpec with Matchers {
@@ -14,9 +14,40 @@ class OnTheFlyCompilerTest extends FlatSpec with Matchers {
     compiler.findClass("Test") shouldBe defined
   }
 
+  "A method executed on onthefly-compile test class" should "return the expected value" in {
+    val compiler = new OnTheFlyCompiler(None)
+    val script = "import de.codepitbull.scala.onthefly.Extendthis\n" +
+        "class Test extends Extendthis{\n" +
+        "override def hello():String = \"hello\"\n" +
+        "}"
+    compiler.compileClass(script)
+    compiler
+      .findClass("Test")
+      .get
+      .newInstance()
+      .asInstanceOf[Extendthis]
+      .hello() shouldBe "hello"
+  }
+
+  "A class depending on another uncompiled class" should "compile and do stuff" in {
+    val compiler = new OnTheFlyCompiler(None)
+    val script = "import de.codepitbull.scala.onthefly.Extendthis\n" +
+        "import de.codepitbull.scala.onthefly.NotCompiled\n" +
+        "class Test extends Extendthis{\n" +
+        "override def hello():String = \"hello\"\n" +
+        "}"
+    compiler.compileClass(script)
+    compiler
+      .findClass("Test")
+      .get
+      .newInstance()
+      .asInstanceOf[Extendthis]
+      .hello() shouldBe "hello"
+  }
+
   "Some test code" should "be compiled and evaluted" in {
     val compiler = new OnTheFlyCompiler(None)
-    val script   = "println(\"wtf\")"
+    val script   = "println(\"you should see me\")"
     compiler.eval[Unit](script)
   }
 

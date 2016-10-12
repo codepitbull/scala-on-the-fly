@@ -20,6 +20,7 @@ import scala.tools.nsc.io.{ AbstractFile, VirtualDirectory }
   */
 class OnTheFlyCompiler(targetDir: Option[File]) {
 
+  val reg  = "import\\s(.*)".r
   val that = this
   val target = targetDir match {
     case Some(dir) => AbstractFile.getDirectory(dir)
@@ -46,6 +47,9 @@ class OnTheFlyCompiler(targetDir: Option[File]) {
     * @return
     */
   def compileClass(code: String) = {
+    reg.findAllIn(code).matchData.foreach { m =>
+      findClass(m.group(1))
+    }
     val sourceFiles = List(new BatchSourceFile("(inline)", code))
     compiler.compileSources(sourceFiles)
   }
